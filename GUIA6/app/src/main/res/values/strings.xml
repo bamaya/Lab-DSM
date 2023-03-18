@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">My Application Practica 06 - DSM104</string>
+    <string name="Saltar">Next</string>
+    <string name="Salir">Next</string>
+    <string name="Salir2">Go Out</string>
+    <string name="conectar">Connect</string>
+    <string name="inse">Log In</string>
+    <string name="contrasena">¿Do you forget your password?</string>
+    <string name="Correo">Email</string>
+    <string name="Contra">Password</string>
+</resources>

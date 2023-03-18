@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">My Application Practica 06 - DSM104</string>
+    <string name="Saltar">Saltar</string>
+    <string name="Salir">Salir</string>
+    <string name="Salir2">Salir</string>
+    <string name="conectar">Conectar</string>
+    <string name="inse">Iniciar Sesion</string>
+    <string name="contrasena">¿Olvido su contraseña?</string>
+    <string name="Correo">Correo</string>
+    <string name="Contra">Contraseña</string>
+</resources>
