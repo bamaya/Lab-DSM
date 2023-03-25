@@ -1,0 +1,50 @@
+package com.example.retrofitapp
+
+import android.widget.Toast
+import androidx.annotation.Nullable
+import androidx.appcompat.widget.SearchView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
+import com.example.retrofitapp.databinding.ActivityMainBinding
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.util.*
+import kotlin.collections.ArrayList
+
+class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
+
+    var binding: ActivityMainBinding? = null
+    var dogAdapter:DogAdapter? = null
+    var images: MutableList<String> = Arraylist()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding!!.root)
+
+        initRecyclerView()
+        binding!!.searchDogs.setOnQueryTextListener(this as OnQueryTextListener)
+    }
+
+    private fun initRecyclerView() {
+        dogAdapter = DogAdapter(images)
+        binding!!.ListDogs.layoutManager = LinearLayoutManager(this)
+        binding!!.listDogs.adapter = dogAdapter
+    }
+
+    private val apiService: ApiService
+    private get(){
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://dog.ceo/api/breed/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        return  retrofit.create(ApiService::class.java)
+    }
+
+}
