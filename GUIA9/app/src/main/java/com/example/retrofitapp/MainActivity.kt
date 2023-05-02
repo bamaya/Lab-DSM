@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
+import androidx.databinding.adapters.SearchViewBindingAdapter.OnQueryTextChange
 import com.example.retrofitapp.databinding.ActivityMainBinding
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -45,6 +46,45 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         return  retrofit.create(ApiService::class.java)
+    }
+
+    private fun searchByName(raza: String){
+        val batch: Call<DogsResponse?>? = apiService.getDogsByBreed(raza)
+        batch?.enqueue(object : Callback<DogsResponse?> {
+
+            override fun OnResponse(
+                @Nullable call: Call<DogsResponse?>?,
+                @Nullable response: Response<DogsResponse?>?
+            ){
+                if (response != null && response.body() != null){
+                    val responseImages: List<String> = response.body()!!.getImages() as List<String>
+                    images.clear()
+                    images.addAll(responseImages)
+                    dogAdapter!!.notifyDataSetChanged()
+                }
+            }
+
+            override fun onFailure(@Nullable call: Call<DogsResponse?>?, @Nullable t: Throwable) {
+                if (t != null){
+                    showError()
+                }
+            }
+        })
+    }
+
+    private fun showError(){
+        Toast.makeText(this, "Ha ocurrido un error", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (!query.isEmpty()){
+            searchByName(query.lowercase(Locale.getDefault()))
+        }
+        return true
+    }
+
+    override fun OnQueryTextChange(newText: String?): Boolean{
+        return true
     }
 
 }
